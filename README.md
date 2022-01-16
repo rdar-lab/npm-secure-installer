@@ -1,10 +1,17 @@
 # npm-secure-installer
 
-A secure global installer for NPM only whitelisting packages which uses npm-shrinkwrap to lock down dependencies and avoid supply-chain attacks.
+A secure global installer for Npm, only whitelisting packages which use npm-shrinkwrap to lock down dependencies and avoid supply-chain attacks.
 
-This tool will help you avoid issues of dependency-like attacks when installing global dependency (e.g. CLI tool).
+One of the key requirements of SLSA is dependency hermetic, meaning the dependencies are locked down to an immutable reference.
+Npm achieves this goal using the package-lock.json which is automatically created on the first "npm install" run.
+However, when using Npm to install global tools, Npm does not run from any project and therefore does not use any package-lock.json file.\
+Moreover, even if the package to be installed had a package-lock.json, it has no effect in this scenario.
+Thankfully, npm provides the shirnkwrap approach which is specifically designed for this scenario.
 
-This was inspired from the recent "colors" fiasco.
+So, the secure approach will be to verify the package has npm-shrinkwrap manifest before performing the installation.
+npm-secure-installer will do just that.
+
+This tool was inspired by the recent "colors" fiasco.
 
 
 ### Usage:
